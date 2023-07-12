@@ -3,6 +3,7 @@ https://mods.vintagestory.at/rpgitemrarity
 <p style="text-align: center;"><span style="font-size: 14pt; font-family: 'andale mono', monospace;"><strong>Makes weapons, tools, and armor get assigned a rpg-esque rarity which improves their stats.</strong></span></p>
 <h4 style="text-align: center;"><span style="font-family: 'andale mono', monospace;">It is written in a way that should ensure compatibility with modded items as well.</span></h4>
 <h5 style="text-align: center;"><span style="font-family: 'andale mono', monospace;">Partially an example mod for my patch I'm working on called <a title="Attributer" href="https://mods.vintagestory.at/attributer">Attributer</a>.</span></h5>
+<hr />
 <h3><strong>How to use:</strong></h3>
 <p>Items when obtained automatically have rarity generated, this includes loot drops and chests.</p>
 <p>Items that don't have rarity need to be "appraised" by dropping them and picking them back up, or using them.</p>
