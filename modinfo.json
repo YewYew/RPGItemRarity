@@ -1,0 +1,15 @@
+{
+  "type": "code",
+  "modid": "rpgitemrarity",
+  "name": "RPG Item Rarity",
+  "authors": [ "Yew™" ],
+  "description": "Gives items an rpg-esque rarity system to change stats.",
+  "side": "universal",
+  "version": "1.0.3",
+  "dependency": {
+    "game": "*",
+	"survival" : "*",
+	"attributer" : "*",
+  },
+  "website": "https://mods.vintagestory.at/rpgitemrarity/"
+}

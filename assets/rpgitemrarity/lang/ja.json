@@ -1,0 +1,8 @@
+﻿{
+    "rpgitemrarity:prefix-common": "コモン",
+    "rpgitemrarity:prefix-uncommon": "非共通",
+    "rpgitemrarity:prefix-rare": "珍しい",
+    "rpgitemrarity:prefix-epic": "エピック",
+    "rpgitemrarity:prefix-legendary": "伝説",
+    "rpgitemrarity:prefix-unique": "ユニーク"
+}

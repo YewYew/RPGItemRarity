@@ -1,0 +1,8 @@
+﻿{
+    "rpgitemrarity:prefix-common": "Звичайний",
+    "rpgitemrarity:prefix-uncommon": "Незвичайні",
+    "rpgitemrarity:prefix-rare": "Рідкісний",
+    "rpgitemrarity:prefix-epic": "Епічні",
+    "rpgitemrarity:prefix-legendary": "Легендарний",
+    "rpgitemrarity:prefix-unique": "Унікальний"
+}

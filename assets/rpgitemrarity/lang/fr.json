@@ -1,0 +1,8 @@
+﻿{
+    "rpgitemrarity:prefix-common": "Commun",
+    "rpgitemrarity:prefix-uncommon": "Noncommun",
+    "rpgitemrarity:prefix-rare": "Rare",
+    "rpgitemrarity:prefix-epic": "Épopée",
+    "rpgitemrarity:prefix-legendary": "Légendaire",
+    "rpgitemrarity:prefix-unique": "Unique"
+}

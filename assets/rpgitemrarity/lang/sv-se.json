@@ -1,0 +1,8 @@
+﻿{
+    "rpgitemrarity:prefix-common": "Gemensam",
+    "rpgitemrarity:prefix-uncommon": "Ovanlig",
+    "rpgitemrarity:prefix-rare": "Sällsynt",
+    "rpgitemrarity:prefix-epic": "Episk",
+    "rpgitemrarity:prefix-legendary": "Legendarisk",
+    "rpgitemrarity:prefix-unique": "Unik"
+}
