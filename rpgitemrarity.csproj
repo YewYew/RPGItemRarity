@@ -67,7 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\config\Config.cs" />
+    <Compile Include="src\config\ModConfig.cs" />
     <Compile Include="src\Core.cs" />
     <Compile Include="src\patch\CollectibleObjectPatch.cs" />
     <Compile Include="src\patch\ItemShieldPatch.cs" />
@@ -79,9 +79,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\rpgitemrarity\config\settings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="assets\rpgitemrarity\lang\ar.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

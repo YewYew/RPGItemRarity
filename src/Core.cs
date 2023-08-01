@@ -1,7 +1,9 @@
 using HarmonyLib;
-using rpgitemrarity.src;
+using rpgitemrarity;
+using rpgitemrarity.ModConfig;
 using System;
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Reflection;
 using Vintagestory.API.Client;
@@ -20,7 +22,7 @@ namespace vsrpgrarity.src
     public sealed class vsrpgrarityMod : ModSystem
     {
         private readonly Harmony harmonyInstance;
-        private static rpgitemrarityConfig config;
+        private static ModConfig config;
         public const string harmonyID = "vsrpgrarity.Patches";
         public vsrpgrarityMod()
         {
@@ -29,7 +31,7 @@ namespace vsrpgrarity.src
         }
         public override void Start(ICoreAPI iapi)
         {
-            config = new rpgitemrarityConfig();
+            config = new ModConfig();
             harmonyInstance.PatchAll();
             iapi.Event.OnEntitySpawn += OnEntitySpawn;
             base.Start(iapi);
@@ -73,8 +75,26 @@ namespace vsrpgrarity.src
                         //If it isn't already graded, grade it.
                         if (!(itemstack.Attributes.HasAttribute("rarity")))
                         {
-                            //Create the value and set it.
-                            itemstack.Attributes.SetFloat("rarity", (float)rng.NextDouble());
+                            if(ModConfig.Current.XSkillsCompatability)
+                            {
+                                //Create the value and set it.
+                                //[XSKILLS] If the object has a "quality" value from XSKILLS (or another mod I suppose).
+                                if (itemstack.Attributes.HasAttribute("quality"))
+                                {
+                                    //[XSKILLS] Do some math to make the 0-10 value of quality to 0-1.
+                                    itemstack.Attributes.SetFloat("rarity", itemstack.Attributes.GetFloat("quality") / 10f);
+                                }
+                                else
+                                {
+                                    //Assign a normal random rarity value.
+                                    itemstack.Attributes.SetFloat("rarity", (float)rng.NextDouble());
+                                }
+                            }
+                            else
+                            {
+                                //Assign a normal random rarity value.
+                                itemstack.Attributes.SetFloat("rarity", (float)rng.NextDouble());
+                            }
                             //Get modifier amount.
                             float rarityMod = getrarityModifier(itemstack.Attributes.GetFloat("rarity"));
                             //Update Stats
@@ -168,88 +188,115 @@ namespace vsrpgrarity.src
         //Internal stuff.
         public static string rarityToString(float rarity)
         {
-            bool name = !config.OverrideLanguageFiles;
-            if (rarity >= config.ItemRarityProbablility["Unique"]) //0% chance
+            bool name = !ModConfig.Current.OverrideLanguageFiles;
+            if (rarity >= ModConfig.Current.ItemRarityProbablility["Unique"]) //0% chance
             {
                 return name ? Lang.Get("rpgitemrarity:prefix-unique") : config.ItemRarityName["Unique"]; //Red
             }
-            else if (rarity >= config.ItemRarityProbablility["Legendary"]) //5% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Legendary"]) //5% chance
             {
-                return name ? Lang.Get("rpgitemrarity:prefix-legendary") : config.ItemRarityName["Legendary"]; //Gold
+                return name ? Lang.Get("rpgitemrarity:prefix-legendary") : ModConfig.Current.ItemRarityName["Legendary"]; //Gold
             }
-            else if (rarity >= config.ItemRarityProbablility["Epic"]) //10% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Epic"]) //10% chance
             {
-                return name ? Lang.Get("rpgitemrarity:prefix-epic") : config.ItemRarityName["Epic"]; //Violet
+                return name ? Lang.Get("rpgitemrarity:prefix-epic") : ModConfig.Current.ItemRarityName["Epic"]; //Violet
             }
-            else if (rarity >= config.ItemRarityProbablility["Rare"]) //15% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Rare"]) //15% chance
             {
-                return name ? Lang.Get("rpgitemrarity:prefix-rare") : config.ItemRarityName["Rare"]; //Blue
+                return name ? Lang.Get("rpgitemrarity:prefix-rare") : ModConfig.Current.ItemRarityName["Rare"]; //Blue
             }
-            else if (rarity >= config.ItemRarityProbablility["Uncommon"]) //20% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Uncommon"]) //20% chance
             {
-                return name ? Lang.Get("rpgitemrarity:prefix-uncommon") : config.ItemRarityName["Uncommon"]; //Green
+                return name ? Lang.Get("rpgitemrarity:prefix-uncommon") : ModConfig.Current.ItemRarityName["Uncommon"]; //Green
             }
-            else if (rarity >= config.ItemRarityProbablility["Common"])//50% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Common"])//50% chance
             {
-                return name ? Lang.Get("rpgitemrarity:prefix-common") : config.ItemRarityName["Common"]; //Grey
+                return name ? Lang.Get("rpgitemrarity:prefix-common") : ModConfig.Current.ItemRarityName["Common"]; //Grey
             }
             return "";
         }
         public static string rarityColorToString(float rarity)
         {
-            if (rarity >= config.ItemRarityProbablility["Unique"]) //0% chance
+            if (rarity >= ModConfig.Current.ItemRarityProbablility["Unique"]) //0% chance
             {
-                return config.ItemRarityColor["Unique"]; //Red #ff0d00
+                return ModConfig.Current.ItemRarityColor["Unique"]; //Red #ff0d00
             }
-            else if (rarity >= config.ItemRarityProbablility["Legendary"]) //5% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Legendary"]) //5% chance
             {
-                return config.ItemRarityColor["Legendary"]; //Gold #ffd700
+                return ModConfig.Current.ItemRarityColor["Legendary"]; //Gold #ffd700
             }
-            else if (rarity >= config.ItemRarityProbablility["Epic"]) //10% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Epic"]) //10% chance
             {
-                return config.ItemRarityColor["Epic"]; //Violet #9F63FF
+                return ModConfig.Current.ItemRarityColor["Epic"]; //Violet #9F63FF
             }
-            else if (rarity >= config.ItemRarityProbablility["Rare"]) //15% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Rare"]) //15% chance
             {
-                return config.ItemRarityColor["Rare"]; //Blue #00DAFE
+                return ModConfig.Current.ItemRarityColor["Rare"]; //Blue #00DAFE
             }
-            else if (rarity >= config.ItemRarityProbablility["Uncommon"]) //20% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Uncommon"]) //20% chance
             {
-                return config.ItemRarityColor["Uncommon"]; //Green #48ff00
+                return ModConfig.Current.ItemRarityColor["Uncommon"]; //Green #48ff00
             }
-            else if (rarity >= config.ItemRarityProbablility["Common"])//50% chance
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Common"])//50% chance
             {
-                return config.ItemRarityColor["Common"]; //Grey #bbbbbb
+                return ModConfig.Current.ItemRarityColor["Common"]; //Grey #bbbbbb
             }
             return "";
         }
         public static float getrarityModifier(float rarity)
         {
-            if (rarity >= config.ItemRarityProbablility["Unique"]) //Unique, 50% bonus.
+            if (rarity >= ModConfig.Current.ItemRarityProbablility["Unique"]) //Unique, 50% bonus.
             {
-                return config.ItemRarityModifier["Unique"];
+                return ModConfig.Current.ItemRarityModifier["Unique"];
             }
-            else if (rarity >= config.ItemRarityProbablility["Legendary"]) //Legendary, 40% bonus.
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Legendary"]) //Legendary, 40% bonus.
             {
-                return config.ItemRarityModifier["Legendary"];
+                return ModConfig.Current.ItemRarityModifier["Legendary"];
             }
-            else if (rarity >= config.ItemRarityProbablility["Epic"]) //Epic, 30% bonus.
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Epic"]) //Epic, 30% bonus.
             {
-                return config.ItemRarityModifier["Epic"];
+                return ModConfig.Current.ItemRarityModifier["Epic"];
             }
-            else if (rarity >= config.ItemRarityProbablility["Rare"]) //Rare, 20% bonus.
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Rare"]) //Rare, 20% bonus.
             {
-                return config.ItemRarityModifier["Rare"];
+                return ModConfig.Current.ItemRarityModifier["Rare"];
             }
-            else if (rarity >= config.ItemRarityProbablility["Uncommon"]) //Uncommon, 10% bonus.
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Uncommon"]) //Uncommon, 10% bonus.
             {
-                return config.ItemRarityModifier["Uncommon"];
+                return ModConfig.Current.ItemRarityModifier["Uncommon"];
             }
-            else if (rarity >= config.ItemRarityProbablility["Common"])//Common, no bonus.
+            else if (rarity >= ModConfig.Current.ItemRarityProbablility["Common"])//Common, no bonus.
             {
-                return config.ItemRarityModifier["Common"];
+                return ModConfig.Current.ItemRarityModifier["Common"];
             }
             return 1.00f;
+        }
+        //Load/Create mod config.
+        public override void AssetsFinalize(ICoreAPI api)
+        {
+            try
+            {
+                var Config = api.LoadModConfig<ModConfig>("rpgitemrarityConfig.json");
+                if (Config != null)
+                {
+                    api.Logger.Notification("[rpgitemrarity] Mod Config successfully loaded.");
+                    ModConfig.Current = Config;
+                }
+                else
+                {
+                    api.Logger.Notification("[rpgitemrarity] No Mod Config specified. Falling back to default settings");
+                    ModConfig.Current = ModConfig.GetDefault();
+                }
+            }
+            catch
+            {
+                ModConfig.Current = ModConfig.GetDefault();
+                api.Logger.Error("[rpgitemrarity] Failed to load custom mod configuration. Falling back to default settings!");
+            }
+            finally
+            {
+                api.StoreModConfig(ModConfig.Current, "rpgitemrarityConfig.json");
+            }
         }
     }
 }

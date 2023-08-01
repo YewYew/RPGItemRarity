@@ -5,7 +5,7 @@
   "authors": [ "Yew™" ],
   "description": "Gives items an rpg-esque rarity system to change stats.",
   "side": "universal",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "dependency": {
     "game": "*",
 	"survival" : "*",

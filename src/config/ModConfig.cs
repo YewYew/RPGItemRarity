@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Vintagestory.API.Common;
 
-namespace rpgitemrarity.src
-{
-    public class rpgitemrarityConfig
-    {
+namespace rpgitemrarity.ModConfig {
+    public class ModConfig {
         //How probability works:
         //An item generates with a rarity value (e.g. rarity = 0.87).
         //The game then runs through the list to see what rarity it is.
@@ -63,12 +62,26 @@ namespace rpgitemrarity.src
         //By default, the game uses the language files for localization.
         public Dictionary<string, string> ItemRarityName = new Dictionary<string, string>
             {
-                {"Unique"   , "Unique"   },
-                {"Legendary", "Legendary"},
-                {"Epic"     , "Epic"     },
-                {"Rare"     , "Rare"     },
-                {"Uncommon" , "Uncommon" },
-                {"Common"   , "Common"   }
+                 {"Unique"   , "Unique"   },
+                 {"Legendary", "Legendary"},
+                 {"Epic"     , "Epic"     },
+                 {"Rare"     , "Rare"     },
+                 {"Uncommon" , "Uncommon" },
+                 {"Common"   , "Common"   }
             };
-    }
+        //Enable/Disable XSkills Compatability. Enabled by default because there isn't a real reason not to.
+        //Does nothing without XSkills.
+        //If you run into other mods that use "quality" attributes on itemstacks, you may want to set this to false.
+        public bool XSkillsCompatability = true;
+        public ModConfig() { }
+
+        public static ModConfig Current { get; set; }
+
+        public static ModConfig GetDefault()
+        {
+            ModConfig defaultConfig = new ModConfig();
+            return defaultConfig;
+        }
+    }   
 }
+

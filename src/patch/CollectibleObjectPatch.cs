@@ -42,5 +42,19 @@ namespace vsrpgrarity.src.patch
             ItemStack itemstack = itemslot.Itemstack;
             vsrpgrarityMod.vrpgrarityUpdateItemRarityItemStack(itemstack);
         }
+        /*
+        //Theoretically, this lets us assign rarity upon crafting.
+        //However, this brings the issue of shift+clicking making all output items have the same rarity.
+        //e.g. Put in four flint knife blades and four sticks, and shift click, all four will have the same rarity modifier.
+        //     However, clicking seperately one-by-one, each will get an individual modifier as intended.
+        //     Quite certain this is due to other related functions using itemstack.Clone for stacks of unstackables.
+        [HarmonyPrefix]
+        [HarmonyPatch("ConsumeCraftingIngredients"), HarmonyPriority(Priority.Last)]
+        public static void Hook_ConsumeCraftingIngredients(ItemSlot[] slots, ItemSlot outputSlot, GridRecipe matchingRecipe)
+        {
+            ItemStack itemstack = outputSlot.Itemstack;
+            vsrpgrarityMod.vrpgrarityUpdateItemRarityItemStack(itemstack);
+        }
+        */
     }
 }

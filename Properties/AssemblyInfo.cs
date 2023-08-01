@@ -36,7 +36,7 @@ using Vintagestory.API.Common;
 [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: ModInfo("rpgitemrarity", "rpgitemrarity",
-    Version = "1.0.3",
+    Version = "1.0.4",
     Description = "Adds a RNG quality system to Vintage Story items.",
     Authors = new[] { "Yew™" }
     )]
